@@ -1,5 +1,10 @@
 import React from 'react';
 
 export const JournalScreen = () => {
-  return <div>JournalScreen</div>;
+  return (
+    <div>
+      <h1>Holas</h1>
+      <p>Hola</p>
+    </div>
+  );
 };
