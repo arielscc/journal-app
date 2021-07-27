@@ -1,43 +1,63 @@
 import React from 'react';
+import { useForm } from '../../hooks/useForm';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
-import { useForm } from '../../hooks/useForm';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { addErrorMessage, removeErrorMessage } from '../../actions/ui';
+import { registerWithEmailPasswordName } from '../../actions/auth';
 
 export const RegisterScreen = () => {
   const [formValues, handleInputChange] = useForm({
     name: 'ariel',
     email: 'ariel@gmail.com',
-    password: '12345',
-    password2: '12345',
+    password: '123456',
+    password2: '123456',
   });
   const { name, email, password, password2 } = formValues;
 
-  const handleSubmit = e => {
+  const dispatch = useDispatch();
+  const ui = useSelector((state) => state.ui);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, email, password, password2);
+
     if (isFormValid()) {
-      console.log('formulario valido');
+      dispatch(registerWithEmailPasswordName(email, password, name));
     }
   };
 
   const isFormValid = () => {
     if (name.trim().length === 0) {
-      console.log('Name is required');
+      dispatch(addErrorMessage('Name is required'));
       return false;
-    } else if (!validator.isEmail(email)) {
-      console.log('Email is not valid');
+    }
+
+    if (!validator.isEmail(email)) {
+      dispatch(addErrorMessage('Email is not valid'));
       return false;
-    } else if (password !== password2 || password.length < 5 || password2 < 5) {
-      console.log(
-        "Password doesn't match and must be greater than 5 characters"
+    }
+
+    if (
+      !validator.isLength(password, 5) ||
+      !validator.isLength(password2, 5) ||
+      password !== password2
+    ) {
+      dispatch(
+        addErrorMessage(
+          "Password doesn't match and must be greater than 5 characters"
+        )
       );
       return false;
     }
+    dispatch(removeErrorMessage());
     return true;
   };
+
   return (
     <>
       <h3 className="auth__title">Register</h3>
+      {ui.error && <div className="auth__alert-error">{ui.error}</div>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -76,7 +96,7 @@ export const RegisterScreen = () => {
           onChange={handleInputChange}
         />
         <button type="submit" className="btn btn-primary btn-full">
-          Login
+          Register
         </button>
 
         <Link to="/auth/login" className="link mt-5">

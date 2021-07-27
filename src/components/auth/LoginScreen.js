@@ -7,16 +7,15 @@ import { useForm } from '../../hooks/useForm';
 export const LoginScreen = () => {
   const [formValues, handleInputChange] = useForm({
     email: 'ariel@gmail.com',
-    password: '123',
+    password: '12356',
   });
 
   const { email, password } = formValues;
 
   const dispatch = useDispatch();
 
-  const handleLogin = e => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    console.log(email, password);
     dispatch(loginWithEmailPsw(email, password));
   };
 
