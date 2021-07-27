@@ -4,6 +4,8 @@ const types = {
 
   addError: '[UI] Add Error',
   removeError: '[UI] Remove Error',
+
+  addRemoveLoading: '[UI] Add & Remove Loading',
 };
 
 export default types;

@@ -8,6 +8,10 @@ export const removeErrorMessage = () => (dispatch) => {
   dispatch(removeError());
 };
 
+export const addAndRemoveLoading = () => (dispatch) => {
+  dispatch(toggleLoading());
+};
+
 const addError = (error) => ({
   type: types.addError,
   payload: error,
@@ -15,4 +19,8 @@ const addError = (error) => ({
 
 const removeError = () => ({
   type: types.removeError,
+});
+
+const toggleLoading = () => ({
+  type: types.addRemoveLoading,
 });

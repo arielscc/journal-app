@@ -17,7 +17,7 @@ export const RegisterScreen = () => {
   const { name, email, password, password2 } = formValues;
 
   const dispatch = useDispatch();
-  const ui = useSelector((state) => state.ui);
+  const { error, loading } = useSelector((state) => state.ui);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ export const RegisterScreen = () => {
   return (
     <>
       <h3 className="auth__title">Register</h3>
-      {ui.error && <div className="auth__alert-error">{ui.error}</div>}
+      {error && <div className="auth__alert-error">{error}</div>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -95,7 +95,11 @@ export const RegisterScreen = () => {
           value={password2}
           onChange={handleInputChange}
         />
-        <button type="submit" className="btn btn-primary btn-full">
+        <button
+          type="submit"
+          className="btn btn-primary btn-full"
+          disabled={loading}
+        >
           Register
         </button>
 
