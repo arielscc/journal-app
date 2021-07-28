@@ -1,6 +1,6 @@
 import types from '../types';
 import { firebase, googleAuthProvider } from '../firebase/config';
-import { addAndRemoveLoading } from './ui';
+import { addAndRemoveLoading, addErrorMessage } from './ui';
 
 export const loginWithEmailPsw = (email, password) => (dispatch) => {
   dispatch(addAndRemoveLoading());
@@ -11,8 +11,8 @@ export const loginWithEmailPsw = (email, password) => (dispatch) => {
       dispatch(login(uid, displayName));
       dispatch(addAndRemoveLoading());
     })
-    .catch((e) => {
-      console.log(e);
+    .catch(({ message }) => {
+      dispatch(addErrorMessage(message));
       dispatch(addAndRemoveLoading());
     });
 };
@@ -27,6 +27,9 @@ export const registerWithEmailPasswordName =
         await user.updateProfile({ displayName: name });
         dispatch(login(user.uid, user.displayName));
         dispatch(addAndRemoveLoading());
+      })
+      .catch(({ message }) => {
+        dispatch(addErrorMessage(message));
       });
   };
 
@@ -36,6 +39,9 @@ export const startGoogleLogin = () => (dispatch) => {
     .signInWithPopup(googleAuthProvider)
     .then(({ user }) => {
       dispatch(login(user.uid, user.displayName));
+    })
+    .catch(({ message }) => {
+      dispatch(addErrorMessage(message));
     });
 };
 
