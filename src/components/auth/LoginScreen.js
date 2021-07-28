@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { loginWithEmailPsw, startGoogleLogin } from '../../actions/auth';
-import { addAndRemoveLoading } from '../../actions/ui';
+import { addErrorMessage, removeErrorMessage } from '../../actions/ui';
 import { useForm } from '../../hooks/useForm';
-
+import validator from 'validator';
 export const LoginScreen = () => {
   const [formValues, handleInputChange] = useForm({
     email: 'ariel@gmail.com',
@@ -13,19 +13,44 @@ export const LoginScreen = () => {
 
   const { email, password } = formValues;
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.ui);
+  const { loading, error } = useSelector((state) => state.ui);
+
+  const history = useHistory();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginWithEmailPsw(email, password));
+    if (isFormValid()) {
+      dispatch(loginWithEmailPsw(email, password));
+      history.push('/');
+    }
+  };
+
+  const isFormValid = () => {
+    if (!validator.isEmail(email)) {
+      dispatch(addErrorMessage('Format email is not valid'));
+      return false;
+    }
+
+    if (!validator.isLength(password, 5)) {
+      dispatch(
+        addErrorMessage(
+          "Password doesn't match and must be greater than 5 characters"
+        )
+      );
+      return false;
+    }
+    dispatch(removeErrorMessage());
+    return true;
   };
 
   const handleGoogleLogin = () => {
     dispatch(startGoogleLogin());
   };
+
   return (
     <>
       <h3 className="auth__title">Login</h3>
+      {error && <div className="auth__alert-error">{error}</div>}
       <form onSubmit={handleLogin}>
         <input
           type="text"

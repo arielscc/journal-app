@@ -10,6 +10,10 @@ export const loginWithEmailPsw = (email, password) => (dispatch) => {
     .then(({ user: { uid, displayName } }) => {
       dispatch(login(uid, displayName));
       dispatch(addAndRemoveLoading());
+    })
+    .catch((e) => {
+      console.log(e);
+      dispatch(addAndRemoveLoading());
     });
 };
 
@@ -35,10 +39,22 @@ export const startGoogleLogin = () => (dispatch) => {
     });
 };
 
-const login = (uid, displayName) => ({
+export const logoutFirebase = () => (dispatch) => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      dispatch(logout());
+    });
+};
+
+export const login = (uid, displayName) => ({
   type: types.login,
   payload: {
     uid,
     displayName,
   },
+});
+const logout = () => ({
+  type: types.logout,
 });
