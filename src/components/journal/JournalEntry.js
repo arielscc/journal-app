@@ -1,8 +1,21 @@
 import React from 'react';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { useDispatch } from 'react-redux';
+import { activeNote } from '../../actions/notes';
 
-export const JournalEntry = () => {
+export const JournalEntry = ({ note }) => {
+  const { body, title, date, url, id } = note;
+  const dayLitteral = format(new Date(date), 'eeee', { locale: es });
+  const dayNumber = format(new Date(date), 'dd');
+
+  const dispatch = useDispatch();
+
+  const handleActiveNote = () => {
+    dispatch(activeNote(null, note));
+  };
   return (
-    <div className="journal__entry pointer">
+    <div className="journal__entry pointer" onClick={handleActiveNote}>
       <div
         className="journal__entry-picture"
         style={{
@@ -12,16 +25,13 @@ export const JournalEntry = () => {
         }}
       ></div>
       <div className="journal__entry-body">
-        <p className="jornal__entry-title">un nuevo parrafo</p>
-        <p className="journal__entry-content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum odio,
-          libero earum maiores accusamus sed
-        </p>
+        <p className="jornal__entry-title">{title}</p>
+        <p className="journal__entry-content">{body}</p>
       </div>
 
       <div className="jorunal__entry-date-box">
-        <span>Moday</span>
-        <h4>28</h4>
+        <span style={{ textTransform: 'capitalize' }}>{dayLitteral}</span>
+        <h4>{dayNumber}</h4>
       </div>
     </div>
   );

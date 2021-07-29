@@ -7,6 +7,7 @@ import { AuthRouter } from './AuthRouter';
 
 import { firebase } from '../firebase/config';
 import { login } from '../actions/auth';
+import { getListNotes } from '../actions/notes';
 
 export const AppRouter = () => {
   const [checking, setChecking] = useState(true);
@@ -18,6 +19,7 @@ export const AppRouter = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user?.uid) {
         dispatch(login(user.uid, user.displayName));
+        dispatch(getListNotes(user.uid));
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
