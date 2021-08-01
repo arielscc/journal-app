@@ -27,8 +27,11 @@
   }
 }
 .btn-danger {
+  padding: 0.5rem 1rem;
   background-color: red;
+  text-transform: capitalize;
   &:hover {
+    transition: 0.3s ease-in-out;
     background-color: darken($color: red, $amount: 10);
   }
 }
