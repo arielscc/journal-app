@@ -17,15 +17,7 @@ export const JournalEntry = ({ note }) => {
   };
   return (
     <div className="journal__entry pointer" onClick={handleActiveNote}>
-      {url && (
-        <div
-          className="journal__entry-picture"
-          style={{
-            backgroundSize: 'cover',
-            backgroundImage: `url(${url})`,
-          }}
-        ></div>
-      )}
+      {url && <img src={url} alt={title} className="journal__entry-picture" />}
       <div className="journal__entry-body">
         <p className="jornal__entry-title">{title}</p>
         <p className="journal__entry-content">{body}</p>

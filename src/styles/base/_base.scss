@@ -1,9 +1,7 @@
-@import 'normalize-scss';
-@include normalize();
-
 * {
   margin: 0px;
   font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
 }
 html,
 body {

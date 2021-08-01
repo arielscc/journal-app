@@ -3,12 +3,8 @@
   border: none;
   color: $white;
   cursor: pointer;
-  font-size: 12px;
-  height: 35px;
-  margin-bottom: 10px;
-
+  font-size: 1rem;
   transition: color 0.3s ease;
-
   &:focus {
     outline: none;
   }
