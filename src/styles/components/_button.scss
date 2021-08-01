@@ -30,6 +30,12 @@
     background-color: darken($color: $primary, $amount: 5);
   }
 }
+.btn-danger {
+  background-color: red;
+  &:hover {
+    background-color: darken($color: red, $amount: 10);
+  }
+}
 
 .btn-full {
   width: 100%;

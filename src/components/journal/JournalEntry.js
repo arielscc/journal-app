@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux';
 import { activeNote } from '../../actions/notes';
 
 export const JournalEntry = ({ note }) => {
-  const { body, title, date, url, id } = note;
+  const { body, title, date, url } = note;
+
   const dayLitteral = format(new Date(date), 'eeee', { locale: es });
   const dayNumber = format(new Date(date), 'dd');
 
@@ -16,14 +17,15 @@ export const JournalEntry = ({ note }) => {
   };
   return (
     <div className="journal__entry pointer" onClick={handleActiveNote}>
-      <div
-        className="journal__entry-picture"
-        style={{
-          backgroundSize: 'cover',
-          backgroundImage:
-            'url(https://i.pinimg.com/originals/83/64/66/83646654668bf9ae412f45bb2e417ddf.jpg)',
-        }}
-      ></div>
+      {url && (
+        <div
+          className="journal__entry-picture"
+          style={{
+            backgroundSize: 'cover',
+            backgroundImage: `url(${url})`,
+          }}
+        ></div>
+      )}
       <div className="journal__entry-body">
         <p className="jornal__entry-title">{title}</p>
         <p className="journal__entry-content">{body}</p>

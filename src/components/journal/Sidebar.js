@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { logoutFirebase } from '../../actions/auth';
-import { addOneNewNote } from '../../actions/notes';
+import { addOneNewNote, notesCleaning } from '../../actions/notes';
 import { JournalEntries } from './JournalEntries';
 
 export const Sidebar = () => {
@@ -14,6 +14,7 @@ export const Sidebar = () => {
   const handleLogout = () => {
     dispatch(logoutFirebase());
     history.push('/auth/login');
+    dispatch(notesCleaning());
   };
 
   const addNewNote = () => {

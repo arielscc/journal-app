@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { activeNote } from '../../actions/notes';
+import { activeNote, startDeleteNote } from '../../actions/notes';
 import { useForm } from '../../hooks/useForm';
 import { NotesAppbar } from './NotesAppbar';
 
@@ -9,7 +9,7 @@ export const NoteScreen = () => {
   const dispatch = useDispatch();
 
   const [values, handleInputChange, reset] = useForm(note);
-  const { title, body } = values;
+  const { title, body, url, id } = values;
   const noteID = useRef(note.id);
   useEffect(() => {
     if (noteID.current !== note.id) {
@@ -21,7 +21,9 @@ export const NoteScreen = () => {
   useEffect(() => {
     dispatch(activeNote(values.id, { ...values }));
   }, [values, dispatch]);
-
+  const handleDelete = () => {
+    dispatch(startDeleteNote(noteID.current));
+  };
   return (
     <div className="notes__main-content">
       <NotesAppbar />
@@ -43,13 +45,15 @@ export const NoteScreen = () => {
           onChange={handleInputChange}
         ></textarea>
 
-        <div className="notes__image">
-          <img
-            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.turismodeobservacion.com%2Fmedia%2Ffotografias%2Fpaisaje-natural-en-sajambre-42863-xl.jpg&f=1&nofb=1"
-            alt="Paisaje bonito"
-          />
-        </div>
+        {url && (
+          <div className="notes__image">
+            <img src={url} alt="Paisaje bonito" />
+          </div>
+        )}
       </div>
+      <button className="btn btn-danger" onClick={handleDelete}>
+        delete note
+      </button>
     </div>
   );
 };
